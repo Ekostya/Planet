@@ -1,14 +1,11 @@
 package repository;
-import model.Ruler;
 import model.RulerPlanet;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.CrudRepository;
+
 
 import java.util.List;
 
 public interface RulerPlanetRepository extends JpaRepository<RulerPlanet, Long> {
-
-//    List<RulerPlanet> findAllByOrderByPlanetId();
 
     List<RulerPlanet> findAllByPlanetIdIs(Long planet_id);
 

@@ -25,7 +25,7 @@ public class GalacticController {
     @Autowired
     private RulerPlanetRepository rulerPlanetRepository;
 
-    // вывод всех правителей --- V
+
     @GetMapping("/rulers")
     public String showAllRulers(Model model) {
         Iterable<Ruler> rulers = rulerRepository.findAll();
@@ -33,7 +33,7 @@ public class GalacticController {
         return "all-rulers";
     }
 
-    // вывод всех планет --- V
+
     @GetMapping("/planets")
     public String showAllPlanets(Model model) {
         Iterable<Planet> planets = planetRepository.findAll();
@@ -41,8 +41,7 @@ public class GalacticController {
         return "all-planets";
     }
 
-    // вывод 10 самых молодых правителей --- V
-    // select name, age from planets_db.ruler order by age asc limit 10;
+
     @GetMapping("/rulers/young")
     public String showYoungRulers(Model model) {
 
@@ -52,7 +51,6 @@ public class GalacticController {
         return "young-rulers";
     }
 
-    // вывод всех правителей без планет --- V
     @GetMapping("/no-planet-rulers")
     public String showRulersNoPlanet(Model model) {
 
@@ -65,13 +63,12 @@ public class GalacticController {
     }
 
 
-    // добавление нового правителя - переход на страничку заполнения формы --- V
     @GetMapping("/rulers/add")
     public String rulersAdd(Model model) {
         return "rulers-add";
     }
 
-    // добавление нового правителя - получение данных из формы и запись в БД --- V
+
     @PostMapping(value = "/rulers/add")
     public String rulersAddPostMap(@RequestParam String name,
                                    @RequestParam int age,
@@ -87,13 +84,11 @@ public class GalacticController {
     }
 
 
-    // добавление новой планеты - переход на страничку заполнения формы --- V
     @GetMapping("/planets/add")
     public String planetsAdd(Model model) {
         return "planets-add";
     }
 
-    // добавление новой планеты - получение данных из формы и запись в БД
     @PostMapping(value = "/planets/add")
     public String planetsAddPostMap(@RequestParam String name,
                                     Model model) {
@@ -101,22 +96,18 @@ public class GalacticController {
         Planet planet = new Planet(name, 0);
         planetRepository.save(planet);
 
-//        RulerPlanet rulerPlanet = new RulerPlanet(0, planet.getId());
-//        rulerPlanetRepository.save(rulerPlanet);
 
         return "redirect:/";
     }
 
 
-    // назначить правителя управлять планетой - переход на страничку заполнения формы - V
     @GetMapping("/order")
     public String orderRulerToPlanet(Model model) {
         return "order";
     }
 
 
-    // назначить правителя управлять планетой -
-    // получение данных из формы и запись в БД  --- V
+
     @PostMapping(value = "/order")
     public String orderRulerToPlanetPost(@RequestParam long ruler_id,
                                          @RequestParam long planet_id,
@@ -128,7 +119,6 @@ public class GalacticController {
 
 
         try {
-            // если у правителя нет планеты
             if (rulerPlanet.getPlanetId() == 0) {
 
                 planet.setRulerId(ruler_id);
@@ -138,7 +128,6 @@ public class GalacticController {
                 rulerPlanetRepository.save(rulerPlanet);
             }
 
-            // если у планеты нет правителя
             if (planet.getRulerId() == 0) {
 
                 planet.setRulerId(ruler_id);
@@ -149,7 +138,6 @@ public class GalacticController {
             }
 
 
-            // если у планеты есть правитель
             if (rulerPlanet.getPlanetId() != 0) {
 
                 RulerPlanet rulerPlanet1 = rulerPlanetRepository.findByPlanetId(planet_id);
@@ -172,7 +160,6 @@ public class GalacticController {
     }
 
 
-    // удаление правителя --- V
     @PostMapping("/rulers/{id}/remove")
     public String rulerDeletePostMap(@PathVariable(value = "id") long id, Model model) {
 
@@ -184,7 +171,6 @@ public class GalacticController {
         return "redirect:/";
     }
 
-    // удаление планеты --- V
     @PostMapping("/planets/{id}/remove")
     public String planetDeletePostMap(@PathVariable(value = "id") long id, Model model) {
 
